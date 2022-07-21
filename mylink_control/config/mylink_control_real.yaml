@@ -1,0 +1,15 @@
+mylink:
+  # Publish all joint states 
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+  # Position Controllers 
+  joint1_position_controller:
+    type: mylink_control/MyControllerClass
+    joint: joint_1
+    pid: {p: 100, i: 0.01, d: 10}
+  joint2_position_controller:
+    type: mylink_control/MyControllerClass
+    joint_name: joint_2
+    

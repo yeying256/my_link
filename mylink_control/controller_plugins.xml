@@ -1,0 +1,9 @@
+<library path="lib/libmy_controller_lib"> 
+    <class name="mylink_control/MyControllerClass" 
+    type="mylink_control::MyControllerClass" 
+    base_class_type="controller_interface::ControllerBase">
+      <description>
+        My test.
+      </description>
+    </class>
+  </library>

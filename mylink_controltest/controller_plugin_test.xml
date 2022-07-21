@@ -1,0 +1,9 @@
+<library path="lib/libMylink_Controller_Test_lib">
+    <class name="mylink_controller_test_ns/Mylink_Controller_Test" 
+           type="mylink_controller_test_ns::Mylink_Controller_Test" 
+                 
+           base_class_type="controller_interface::ControllerBase" />
+      <description>
+        fuck test??????????
+      </description>
+  </library>

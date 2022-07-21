@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<!-- Revolute-Revolute Manipulator -->
+<robot name="rrbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+   
+      <link name="world"/>
+      <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+      </joint>
+    
+      <link
+        name="base_link">
+        <inertial>
+          <origin
+            xyz="-1.8503E-05 -3.9839E-06 0.0049956"
+            rpy="0 0 0" />
+          <mass
+            value="0.022169" />
+          <inertia
+            ixx="4.4372E-06"
+            ixy="1.3719E-10"
+            ixz="1.4194E-09"
+            iyy="4.432E-06"
+            iyz="1.3021E-10"
+            izz="8.5002E-06" />
+        </inertial>
+        <visual>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://mylink_urdf/meshes/base_link.STL" />
+          </geometry>
+          <material
+            name="">
+            <color
+              rgba="1 1 0 1" />
+          </material>
+        </visual>
+        <collision>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://mylink_urdf/meshes/base_link.STL" />
+          </geometry>
+        </collision>
+      </link>
+      <link
+        name="link_1">
+        <inertial>
+          <origin
+            xyz="-2.4999E-05 5.1564E-10 -0.023575"
+            rpy="0 0 0" />
+          <mass
+            value="1" />
+          <inertia
+            ixx="1.7851E-01"
+            ixy="0"
+            ixz="0"
+            iyy="1.7915E-01"
+            iyz="0"
+            izz="1.1684E-01" />
+        </inertial>
+        <visual>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://mylink_urdf/meshes/link_1.STL" />
+          </geometry>
+          <material
+            name="">
+            <color
+              rgba="0.66667 0.69804 0.76863 1" />
+          </material>
+        </visual>
+        <collision>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://mylink_urdf/meshes/link_1.STL" />
+          </geometry>
+        </collision>
+      </link>
+      <joint
+        name="joint_1"
+        type="revolute">
+        <origin
+          xyz="0 0 0.0465"
+          rpy="0 0 0" />
+        <parent
+          link="base_link" />
+        <child
+          link="link_1" />
+        <axis
+          xyz="0 0 1" />
+        <limit
+          lower="-3.14"
+          upper="3.14"
+          effort="2.5"
+          velocity="2" />
+      </joint>
+      <link
+        name="link_2">
+        <inertial>
+          <origin
+            xyz="0.020159 -1.0519E-09 3.8421E-09"
+            rpy="0 0 0" />
+          <mass
+            value="1" />
+          <inertia
+            ixx="8.856E-01"
+            ixy="0"
+            ixz="0"
+            iyy="7.2036E-01"
+            iyz="0"
+            izz="7.1373E-01" />
+        </inertial>
+        <visual>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://mylink_urdf/meshes/link_2.STL" />
+          </geometry>
+          <material
+            name="">
+            <color
+              rgba="0.039216 0.4902 0.7098 1" />
+          </material>
+        </visual>
+        <collision>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <geometry>
+            <mesh
+              filename="package://mylink_urdf/meshes/link_2.STL" />
+          </geometry>
+        </collision>
+      </link>
+      <joint
+        name="joint_2"
+        type="revolute">
+        <origin
+          xyz="0 0 0"
+          rpy="1.5708 -1.5708 0" />
+        <parent
+          link="link_1" />
+        <child
+          link="link_2" />
+        <axis
+          xyz="0 0 -1" />
+        <limit
+          lower="-2.7"
+          upper="2.7"
+          effort="2.5"
+          velocity="2" />
+      </joint>
+    
+      <transmission name="tran1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_1">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor1">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator> 
+      </transmission>
+      
+      <transmission name="tran2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_2">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor2">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+    
+      <gazebo reference="link_2">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Black</material>
+      </gazebo>
+      <gazebo reference="link_1">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Orange</material>
+      </gazebo>
+    
+    
+      <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+          <robotNamespace>/mylink</robotNamespace>
+          <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+      </gazebo>
+    
+    </robot>
